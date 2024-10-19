@@ -1,11 +1,9 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 import facts from "./assets/facts.json";
 
-function App() {
+const App = () => {
     const generateResponse = async () => {
         const factsValues = Object.values(facts)[0];
 
@@ -18,8 +16,6 @@ function App() {
 
     const [response, setResponse] = useState("Nothing Yet...");
 
-    console.log(response);
-
     return (
         <div className="flex flex-col items-center justify-center">
             <h1 className="text-5xl font-bold mt-3 mb-10">
@@ -31,6 +27,6 @@ function App() {
             </button>
         </div>
     );
-}
+};
 
 export default App;
