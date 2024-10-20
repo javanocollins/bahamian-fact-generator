@@ -2,5 +2,5 @@
 version: 0
 os: linux
 files:
-  - source: ./out
+  - source: /dist
     destination: /var/www/html
