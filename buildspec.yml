@@ -1,34 +1,44 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "Installing dependencies..."
-      - npm ci
+    install:
+        commands:
+            - echo "Installing dependencies..."
+            - npm ci
 
-  build:
-    commands:
-      - echo "Building the React app..."
-      - npm run build
-      - mkdir -p out
-      - cp appspec.yml out/
-      - cp -r dist/ out/
+    build:
+        commands:
+            - echo "Building the React app..."
+            - npm run build
+            - mkdir -p out
+            - cp appspec.yml out/
+            - cp -r dist/ out/
 
-  post_build:
-    commands:
-      - echo "Fixing ownership of working directory..."
-      - sudo chown -R ec2-user:ec2-user .  # Adjust for your environment
-      - echo "Packaging files..."
-      - mkdir -p out
-      - cp appspec.yml out/
-      - cp -r dist/ out/
-      - cp -r scripts/ out/
-      - cd out
-      - zip -r ../deployment-package.zip .
-      
+    post_build:
+        commands:
+            - echo "Verifying build output..."
+            - ls -la build/ # Or 'dist/', depending on your setup
+
+            - echo "Fixing ownership of working directory..."
+            - sudo chown -R $(whoami):$(whoami) . # Adjust ownership safely
+
+            - echo "Packaging files into ZIP..."
+            - mkdir -p out
+
+            # Check if appspec.yml exists before copying
+            - if [ -f appspec.yml ]; then cp appspec.yml out/; else echo "appspec.yml not found"; fi
+
+            # Check if build/ exists before copying
+            - if [ -d build ]; then cp -r build/ out/; else echo "Build folder not found"; fi
+
+            # Ensure scripts/ exists before copying
+            - if [ -d scripts ]; then cp -r scripts/ out/; else echo "Scripts folder not found"; fi
+
+            - cd out
+            - zip -r ../deployment-package.zip .
+
 artifacts:
-  files:
-    - appspec.yml
-    - dist/**
-    - deployment-package.zip
-
+    files:
+        - appspec.yml
+        - dist/**
+        - deployment-package.zip
