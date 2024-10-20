@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - npm ci
+
+  build:
+    commands:
+      - echo "Building the React app..."
+      - npm run build
+      - mkdir -p out
+      - cp appspec.yml out/
+      - cp -r dist/ out/
+
+  post_build:
+    commands:
+      - echo "Fixing ownership of working directory..."
+      - sudo chown -R ec2-user:ec2-user .  # Adjust for your environment
+      - echo "Packaging files..."
+      - mkdir -p out
+      - cp appspec.yml out/
+      - cp -r dist/ out/
+      - cp -r scripts/ out/
+      - cd out
+      - zip -r ../deployment-package.zip .
+      
+artifacts:
+  files:
+    - appspec.yml
+    - dist/**
+    - deployment-package.zip
+
