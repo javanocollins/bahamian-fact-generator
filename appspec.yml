@@ -4,12 +4,3 @@ os: linux
 files:
   - source: ./out
     destination: /var/www/html
-hooks:
-  BeforeInstall:
-    - location: scripts/clean_build_directory.sh
-      timeout: 300
-      runas: root
-  AfterInstall:
-    - location: scripts/verify_deployment.sh
-      timeout: 300
-      runas: root
