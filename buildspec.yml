@@ -29,5 +29,6 @@ phases:
 
 artifacts:
     files:
-        - deployment-package.zip # Correct reference to the ZIP
+        - "**/*"
+    base-directory: "./"
     discard-paths: yes
