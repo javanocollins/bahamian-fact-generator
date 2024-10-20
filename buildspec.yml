@@ -2,6 +2,9 @@ version: 0.2
 
 phases:
     install:
+        runtime-versions:
+            nodejs: 18
+
         commands:
             - echo "Installing dependencies..."
             - npm ci
@@ -10,25 +13,7 @@ phases:
         commands:
             - echo "Building the React app..."
             - npm run build
-            - mkdir -p out
-            - cp appspec.yml out/ || echo "appspec.yml not found"
-            - cp -r dist/ out/ || echo "dist folder not found"
-            - ls -al out/
-
-    post_build:
-        commands:
-            - echo "Setting permissions for files..."
-            - chmod -R 755 out/ # Ensure everything is accessible
-            - echo "Packaging files into deployment-package.zip..."
-            - cd out
-            - zip -r deployment-package.zip . # Create ZIP inside 'out/'
-            - mv deployment-package.zip ../ # Move ZIP to the parent directory
-            - cd ..
-            - ls -al # Verify the ZIP exists at the root
-            - echo "Deployment package created."
 
 artifacts:
     files:
         - "**/*"
-    base-directory: "./"
-    discard-paths: yes
