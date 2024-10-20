@@ -1,5 +1,5 @@
 # scripts/install_dependencies.sh
 #!/bin/bash
-yum update -y
-yum install -y nginx
+sudo yum update -y
+sudo yum install -y nginx
 
