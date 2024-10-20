@@ -16,17 +16,18 @@ phases:
 
 post_build:
     commands:
-        - echo "Setting permissions for files..."
-        - chmod -R 755 build/ # Ensure the build folder has read and execute permissions
-        - chmod -R 755 scripts/ # Make scripts executable
-        - mkdir -p out
+      - echo "Setting permissions for files..."
+      - chmod -R 755 dist/  # Ensure 'dist/' is readable
+      - chmod -R 755 scripts/  # Make scripts executable
 
-        # Copy necessary files to 'out' directory
-        - cp appspec.yml out/ || echo "appspec.yml not found"
-        - cp -r build/ out/ || echo "Build folder not found"
-        - cp -r scripts/ out/ || echo "Scripts folder not found"
-        - cd out
-        - zip -r ../deployment-package.zip .
+      - echo "Packaging files into deployment-package.zip..."
+      - mkdir -p out
+      - cp appspec.yml out/
+      - cp -r dist/ out/
+      - cp -r scripts/ out/
+      - cd out
+      - zip -r ../deployment-package.zip .
+      - echo "Deployment package created."
 
 artifacts:
     files:
