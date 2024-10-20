@@ -13,6 +13,8 @@ phases:
             - mkdir -p out
             - cp appspec.yml out/
             - cp -r dist/ out/
+            - ls -al out/
+            - echo "Build completed."
 
 post_build:
     commands:
