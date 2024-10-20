@@ -34,3 +34,5 @@ artifacts:
         - appspec.yml
         - dist/**
         - deployment-package.zip
+    discard-paths: yes
+
