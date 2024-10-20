@@ -5,6 +5,9 @@ files:
   - source: /dist
     destination: /var/www/html
 hooks:
+  BeforeInstall:
+    - location: scripts/clean_build_directory.sh
+      timeout: 300
   ApplicationStart:
     - location: scripts/app_start.sh
       timeout: 300
