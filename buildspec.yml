@@ -17,7 +17,7 @@ phases:
     post_build:
         commands:
             - echo "Verifying build output..."
-            - ls -la build/ # Or 'dist/', depending on your setup
+            - ls -la dist/ # Or 'dist/', depending on your setup
 
             - echo "Fixing ownership of working directory..."
             - sudo chown -R $(whoami):$(whoami) . # Adjust ownership safely
@@ -29,7 +29,7 @@ phases:
             - if [ -f appspec.yml ]; then cp appspec.yml out/; else echo "appspec.yml not found"; fi
 
             # Check if build/ exists before copying
-            - if [ -d build ]; then cp -r build/ out/; else echo "Build folder not found"; fi
+            - if [ -d dist ]; then cp -r dist/ out/; else echo "dist folder not found"; fi
 
             # Ensure scripts/ exists before copying
             - if [ -d scripts ]; then cp -r scripts/ out/; else echo "Scripts folder not found"; fi
