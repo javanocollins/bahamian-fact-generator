@@ -14,28 +14,19 @@ phases:
             - cp appspec.yml out/
             - cp -r dist/ out/
 
-    post_build:
-        commands:
-            - echo "Verifying build output..."
-            - ls -la dist/ # Or 'dist/', depending on your setup
+post_build:
+    commands:
+        - echo "Setting permissions for files..."
+        - chmod -R 755 build/ # Ensure the build folder has read and execute permissions
+        - chmod -R 755 scripts/ # Make scripts executable
+        - mkdir -p out
 
-            - echo "Fixing ownership of working directory..."
-            - sudo chown -R $(whoami):$(whoami) . # Adjust ownership safely
-
-            - echo "Packaging files into ZIP..."
-            - mkdir -p out
-
-            # Check if appspec.yml exists before copying
-            - if [ -f appspec.yml ]; then cp appspec.yml out/; else echo "appspec.yml not found"; fi
-
-            # Check if build/ exists before copying
-            - if [ -d dist ]; then cp -r dist/ out/; else echo "dist folder not found"; fi
-
-            # Ensure scripts/ exists before copying
-            - if [ -d scripts ]; then cp -r scripts/ out/; else echo "Scripts folder not found"; fi
-
-            - cd out
-            - zip -r ../deployment-package.zip .
+        # Copy necessary files to 'out' directory
+        - cp appspec.yml out/ || echo "appspec.yml not found"
+        - cp -r build/ out/ || echo "Build folder not found"
+        - cp -r scripts/ out/ || echo "Scripts folder not found"
+        - cd out
+        - zip -r ../deployment-package.zip .
 
 artifacts:
     files:
