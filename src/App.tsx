@@ -32,6 +32,7 @@ const App = () => {
                     {response}
                 </p>
             )}
+            
             <button
                 className="mt-6 bg-white text-black"
                 onClick={() => generateResponse()}
